@@ -4,6 +4,7 @@ import { type FC, useEffect, useMemo } from 'react';
 
 import { App } from '@/components/App.tsx';
 import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
+import { LanguageProvider } from '@/LanguageProvider';
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
   <div>
@@ -13,8 +14,8 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
         {error instanceof Error
           ? error.message
           : typeof error === 'string'
-            ? error
-            : JSON.stringify(error)}
+          ? error
+          : JSON.stringify(error)}
       </code>
     </blockquote>
   </div>
@@ -35,15 +36,17 @@ const Inner: FC = () => {
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <SDKProvider acceptCustomStyles debug={debug}>
-        <App/>
-      </SDKProvider>
+      <LanguageProvider>
+        <SDKProvider acceptCustomStyles debug={debug}>
+          <App />
+        </SDKProvider>
+      </LanguageProvider>
     </TonConnectUIProvider>
   );
 };
 
 export const Root: FC = () => (
   <ErrorBoundary fallback={ErrorBoundaryError}>
-    <Inner/>
+    <Inner />
   </ErrorBoundary>
 );
