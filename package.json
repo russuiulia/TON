@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "homepage": "https://kuhel.github.io/mini-app",
+  "homepage": "https://russuiulia.github.io/TON",
   "scripts": {
     "deploy": "gh-pages -d dist",
     "dev": "vite",
