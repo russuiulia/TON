@@ -1,10 +1,9 @@
-export const translations = {
+export const translations: any = {
   ro: {
     'homepage:title': 'Asigurări online',
     'homepage:subtitle': 'Emitere instantă, format electronic',
     'homepage:green-card-title': 'Carte Verde',
-    'homepage:green-card-subtitle':
-      'Pentru vehicule MD valabilǎ în afarǎ',
+    'homepage:green-card-subtitle': 'Pentru vehicule MD valabilǎ în afarǎ',
     'homepage:rovignette-title': 'Rovinieta',
     'homepage:rovignette-subtitle': 'Taxa de vinietǎ în România',
     'homepage:rca-title': 'RCA',

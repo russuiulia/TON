@@ -36,11 +36,12 @@ const Inner: FC = () => {
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <LanguageProvider>
-        <SDKProvider acceptCustomStyles debug={debug}>
-          <App />
-        </SDKProvider>
-      </LanguageProvider>
+      <SDKProvider acceptCustomStyles debug={debug}>
+        <LanguageProvider>
+          {' '}
+          <App />{' '}
+        </LanguageProvider>
+      </SDKProvider>
     </TonConnectUIProvider>
   );
 };

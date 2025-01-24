@@ -52,6 +52,9 @@ export const Homepage = () => {
             <img
               src="./../../images/iasig-small-logo.png"
               className="max-w-20 mx-auto py-8"
+              style={{
+                maxWidth: '20%',
+              }}
               alt="iAsig logo"
             />
           </div>

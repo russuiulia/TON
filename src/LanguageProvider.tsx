@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { translations } from './translations';
+import { useInitData } from '@tma.js/sdk-react';
 
 type LanguageContextType = {
   language: 'ro' | 'ru';
@@ -18,14 +19,10 @@ export const LanguageProvider = ({
   children: React.ReactNode;
 }) => {
   const [language, setLanguage] = useState<'ro' | 'ru'>('ro');
-
+  const initData = useInitData();
   useEffect(() => {
-    //@ts-ignore
-    if (window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
-    //@ts-ignore
-      const userLang = window.Telegram.WebApp.initDataUnsafe.user.language_code;
-      setLanguage(userLang === 'ru' ? 'ru' : 'ro'); // Default to RO
-    }
+    const userLang = initData?.user?.languageCode;
+    setLanguage(userLang === 'ru' ? 'ru' : 'ro'); // Default to RO
   }, []);
 
   const translate = (key: keyof (typeof translations)['ro']) =>
