@@ -47,19 +47,33 @@ export const Homepage = () => {
           height: '100vh',
         }}
       >
-        <div className="text-center">
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
           <div>
             <img
               src="./../../images/iasig-small-logo.png"
-              className="max-w-20 mx-auto py-8"
               style={{
-                maxWidth: '20%',
+                maxWidth: '5rem',
+                paddingTop: '2rem',
+                paddingBottom: '2rem',
+                marginLeft: 'auto',
+                marginRight: 'auto',
               }}
               alt="iAsig logo"
             />
           </div>
           <Text>{translate('homepage:title')}</Text>
-          <Title level="1" weight="1" className="py-1">
+          <Title
+            level="1"
+            weight="1"
+            style={{
+              paddingBottom: '0.25rem',
+              paddingTop: '0.25rem',
+            }}
+          >
             iAsig
           </Title>
           <Text
@@ -71,10 +85,10 @@ export const Homepage = () => {
           </Text>
         </div>
         <List
-          className="mt-20"
           style={{
             background: 'var(--tgui--secondary_bg_color)',
             padding: 10,
+            marginTop: '5rem',
           }}
         >
           {insuranceItems.map((item, index) => (
