@@ -18,9 +18,11 @@
     "@tma.js/react-router-integration": "^4.0.3",
     "@tma.js/sdk-react": "^2.2.5",
     "@tonconnect/ui-react": "^2.0.5",
+    "date-fns": "^4.1.0",
     "eruda": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "@types/node": "^20.12.11",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@types/react-input-mask": "^3.0.6",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "@vitejs/plugin-basic-ssl": "^1.1.0",

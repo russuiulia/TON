@@ -6,24 +6,22 @@ import {
   Cell,
   Avatar,
 } from '@telegram-apps/telegram-ui';
-import { useEffect } from 'react';
 import { Link } from '@/components/Link/Link.tsx';
 
 import { useLanguage } from '../../LanguageProvider';
 // import { Icon28Stats } from '@telegram-apps/telegram-ui/dist/icons/28/stats';
 import '@telegram-apps/telegram-ui/dist/styles.css';
+import { initHapticFeedback } from '@tma.js/sdk-react';
 
 export const Homepage = () => {
-  useEffect(() => {
-    //@ts-ignore
-    // window!.Telegram!.WebApp.BackButton.isVisible = false;
-  }, []);
   const { translate } = useLanguage();
+  const HapticFeedback = initHapticFeedback();
+
   const insuranceItems = [
     {
       title: translate('homepage:green-card-title'),
       subtitle: translate('homepage:green-card-subtitle'),
-      href: '/init-data',
+      href: '/green-card',
       disabled: false,
     },
     {
@@ -101,10 +99,7 @@ export const Homepage = () => {
                   subtitle={item.subtitle}
                   before={<Avatar />}
                   onClick={() =>
-                    //@ts-ignore
-                    window!.Telegram!.WebApp.HapticFeedback.impactOccurred(
-                      'heavy'
-                    )
+                    HapticFeedback.impactOccurred('heavy')
                   }
                   disabled={item.disabled}
                 >
