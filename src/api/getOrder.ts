@@ -1,5 +1,5 @@
 export const getOrder = async (id: string): Promise<any> => {
-  const url = `${process.env.REACT_APP_WORKER_URL}/get-order`;
+  const url = `${import.meta.env.VITE_WORKER_URL}/get-order`;
   const body = {
     id,
   };

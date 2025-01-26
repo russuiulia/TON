@@ -3,7 +3,7 @@ export const sendDocumentToChat = async (
   documentUrl: string,
   caption?: string
 ): Promise<any> => {
-  const url = `${process.env.REACT_APP_WORKER_URL}/send-document-to-chat`;
+  const url = `${import.meta.env.VITE_WORKER_URL}/send-document-to-chat`;
   const body = {
     chat_id,
     documentUrl,

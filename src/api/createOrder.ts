@@ -7,7 +7,7 @@ export const createOrder = async (
   insurance_company: string,
   tguid: number | undefined
 ): Promise<any> => {
-  const url = `${process.env.REACT_APP_WORKER_URL}/create-order`;
+  const url = `${import.meta.env.VITE_WORKER_URL}/create-order`;
   const body = {
     customer: {
       name: 'John Doe',
