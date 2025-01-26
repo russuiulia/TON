@@ -302,17 +302,14 @@ export const GreenCardForm = () => {
 
   // useEffect(() => {}, [buttonText]);
   return (
-    <form className="w-full" style={{ marginTop: '5rem' }}>
+    <form style={{ marginTop: '5rem' }}>
       <List
         style={{
           background: 'var(--tgui--secondary_bg_color)',
           height: '100%',
         }}
       >
-        <Section
-          header={translate('green-card-form:region-label')}
-          className="pt-4 mt-12 "
-        >
+        <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
             before={
@@ -480,7 +477,6 @@ export const GreenCardForm = () => {
               }}
             >
               <Banner
-                className="w-full"
                 //@ts-ignore
                 callout={translate('green-card-form:vehicle')}
                 header={carSummary}
@@ -492,7 +488,6 @@ export const GreenCardForm = () => {
                 }}
               ></Banner>
               <Banner
-                className="w-full"
                 //@ts-ignore
                 callout={translate('green-card-form:insurance-period-summary')}
                 header={formatDateRange(
@@ -510,7 +505,6 @@ export const GreenCardForm = () => {
                 }}
               ></Banner>
               <Banner
-                className="w-full"
                 //@ts-ignore
                 callout={translate('green-card-form:region-summary')}
                 header={
@@ -530,12 +524,13 @@ export const GreenCardForm = () => {
             </List>
             <Section
               header={translate('green-card-form:insurance-company')}
-              className="p-0 w-full"
+              style={{
+                width: '100%',
+              }}
             >
               {offers.offers.map((offer: Offer) => {
                 return (
                   <Cell
-                    className="w-full"
                     Component="label"
                     before={
                       <>
@@ -549,7 +544,9 @@ export const GreenCardForm = () => {
                           }}
                         />
                         <img
-                          className="ml-3"
+                          style={{
+                            marginLeft: '0.75rem',
+                          }}
                           width={40}
                           src={`./images/${capitalizeFirstLetter(
                             offer.company
@@ -560,9 +557,18 @@ export const GreenCardForm = () => {
                     }
                     multiline
                     after={
-                      <small className="max-w-[100px] text-center">
+                      <small
+                        style={{
+                          textAlign: 'center',
+                          fontFamily: 'var(--tgui--font-family)',
+                        }}
+                      >
                         <b>{offer.price} MDL</b>
-                        <div className="opacity-80">
+                        <div
+                          style={{
+                            opacity: '80%',
+                          }}
+                        >
                           ({offer.reference_price.replace(' EUR', '')} €)
                         </div>
                       </small>
@@ -573,7 +579,12 @@ export const GreenCardForm = () => {
                 );
               })}
             </Section>
-            <div className="p-[16px] w-full">
+            <div
+              style={{
+                padding: '16px',
+                width: '92%',
+              }}
+            >
               <Button
                 size="m"
                 stretched
