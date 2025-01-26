@@ -4,7 +4,7 @@ export const getOffers = async (
   region: string,
   idnx: string
 ): Promise<any> => {
-  const url = `${process.env.REACT_APP_WORKER_URL}/get-offers`;
+  const url = `${import.meta.env.VITE_WORKER_URL}/get-offers`;
   const body = {
     product: 'green-card',
     region,
@@ -30,6 +30,6 @@ export const getOffers = async (
     return await response.json();
   } catch (error) {
     console.error('Error fetching offers:', error);
-    throw error; 
+    throw error;
   }
 };
