@@ -23,7 +23,16 @@ export const OrderStatus = ({ orderStatus }: any) => {
     orderStatusTitle = translate('title-refunded');
   }
   return (
-    <Title level="2" weight="2" className="w-full text-center py-4">
+    <Title
+      level="2"
+      weight="2"
+      className="w-full text-center py-4"
+      style={{
+        paddingBottom: '1rem',
+        paddingTop: '1rem',
+        textAlign: 'center',
+      }}
+    >
       {orderStatusTitle}
     </Title>
   );

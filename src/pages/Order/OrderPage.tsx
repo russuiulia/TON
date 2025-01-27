@@ -229,23 +229,27 @@ export const OrderPage = () => {
           status === 'processing' ||
           status === 'issued') && (
           <div>
-            <Spinner size="l" className="flex justify-center" />
+            <Spinner
+              size="l"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            />
           </div>
         )}
         <div>
           <Section
             header={translate('order:order-details-label')}
-            className="p-0 w-full  pt-12"
             style={{
               background: 'var(--tgui--secondary_bg_color)',
               padding: '10px',
-              // marginBottom:'60px'
+              paddingTop: '3rem',
             }}
           >
             <List>
               <Skeleton visible={!isLoaded}>
                 <Banner
-                  className="w-full"
                   callout={translate('order:order-type-label')}
                   header={insuranceDescription}
                   style={{
@@ -254,7 +258,6 @@ export const OrderPage = () => {
                   }}
                 ></Banner>
                 <Banner
-                  className="w-full"
                   callout={translate('order:vehicle-label')}
                   header={vehicle}
                   style={{
@@ -263,7 +266,6 @@ export const OrderPage = () => {
                   }}
                 ></Banner>
                 <Banner
-                  className="w-full"
                   callout={translate('order:duration-label')}
                   header={duration}
                   style={{
@@ -272,7 +274,6 @@ export const OrderPage = () => {
                   }}
                 ></Banner>
                 <Banner
-                  className="w-full"
                   callout={translate('order:region-label')}
                   header={region}
                   style={{
@@ -282,12 +283,12 @@ export const OrderPage = () => {
                 ></Banner>
               </Skeleton>{' '}
             </List>
-            <div
+            {/* <div
               style={{
                 height: '70px',
                 backgroundColor: 'var(--tgui--secondary_bg_color)',
               }}
-            ></div>
+            ></div> */}
             {status === 'draft' && (
               <Modal
                 style={{
@@ -313,7 +314,11 @@ export const OrderPage = () => {
                   </FixedLayout>
                 }
               >
-                <div className="h-[100vh]">
+                <div
+                  style={{
+                    height: '100vh',
+                  }}
+                >
                   <div
                     style={{
                       margin: 'auto',
@@ -331,12 +336,15 @@ export const OrderPage = () => {
                   <iframe
                     title="payment"
                     ref={iframeRef}
-                    src={`${import.meta.env.VITE_NEXT_PUBLIC_HOST_FUNCTION}/maibData?language=${language}&orderId=${orderParam}&insuranceType=${insuranceType}&isTelegram=true`}
+                    src={`${
+                      import.meta.env.VITE_NEXT_PUBLIC_HOST_FUNCTION
+                    }/maibData?language=${language}&orderId=${orderParam}&insuranceType=${insuranceType}&isTelegram=true`}
                     style={{
                       width: '100%',
                       height: '100%',
                       zIndex: '3',
                       position: 'relative',
+                      border: 'none',
                     }}
                   />
                 </div>
