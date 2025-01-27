@@ -16,6 +16,8 @@ import { InsuranceType } from '../../interfaces/offer';
 import { OrderStatus } from './OrderStatus';
 // import { sendDocumentToChat } from '../../api/sendDocumentInChat';
 import { useLanguage } from '../../LanguageProvider';
+import { useHapticFeedback, useInitData } from '@tma.js/sdk-react';
+import { sendDocumentToChat } from '@/api/sendDocumentInChat';
 
 export const OrderPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,7 +35,8 @@ export const OrderPage = () => {
   const [insuranceType, setInsuranceType] = useState('');
   // const [openModal, setOpenModal] = useState(false);
   const { translate, language } = useLanguage();
-
+  const initData = useInitData();
+  const HapticFeedback = useHapticFeedback();
   const orderParam = searchParams.get('order');
   console.log(setSearchParams);
   useEffect(() => {
@@ -131,36 +134,25 @@ export const OrderPage = () => {
             prevStatusRef.current !== 'completed' &&
             res.status === 'completed'
           ) {
-            // if (window.Telegram && window.Telegram.WebApp) {
-            //   const initDataUnsafe = window.Telegram?.WebApp.initDataUnsafe;
-            //   if (initDataUnsafe && initDataUnsafe.user) {
-            //     window!.Telegram!.WebApp.HapticFeedback.notificationOccurred(
-            //       'success'
-            //     );
-            //     const messageText =
-            //       language === 'ru'
-            //         ? `Ваш заказ ${insuranceDescription} - ${duration} ${res.products[0].car_model} ${res.products[0].plate_number} с номером ${orderParam} готов`
-            //         : `Comanda dvs. ${info[0]} ${res.products[0].car_model} ${res.products[0].plate_number} cu nr.${orderParam} este procesatǎ`;
-            //     sendDocumentToChat(
-            //       initDataUnsafe.user.id.toString(),
-            //       res.products[0].file,
-            //       messageText
-            //     );
-            //   } else {
-            //     window!.Telegram!.WebApp.HapticFeedback.notificationOccurred(
-            //       'error'
-            //     );
-            //     console.error('User data is unavailable.');
-            //   }
-            // } else {
-            //   console.error('Telegram WebApp is not initialized.');
-            // }
+            if (initData) {
+              HapticFeedback.notificationOccurred('success');
+              const messageText =
+                language === 'ru'
+                  ? `Ваш заказ ${insuranceDescription} - ${duration} ${res.products[0].car_model} ${res.products[0].plate_number} с номером ${orderParam} готов`
+                  : `Comanda dvs. ${info[0]} ${res.products[0].car_model} ${res.products[0].plate_number} cu nr.${orderParam} este procesatǎ`;
+              sendDocumentToChat(
+                initData!.user!.id.toString(),
+                res.products[0].file,
+                messageText
+              );
+            } else {
+              HapticFeedback.notificationOccurred('error');
+              console.error('User data is unavailable.');
+            }
           }
-          // if (prevStatusRef.current !== 'failed' && res.status === 'failed') {
-          //   window!.Telegram!.WebApp.HapticFeedback.notificationOccurred(
-          //     'error'
-          //   );
-          // }
+          if (prevStatusRef.current !== 'failed' && res.status === 'failed') {
+            HapticFeedback.notificationOccurred('error');
+          }
 
           prevStatusRef.current = res.status;
         }
