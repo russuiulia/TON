@@ -13,7 +13,6 @@ export const sendPreorderToChat = async (
     orderId,
     WEB_APP_URL,
   };
-
   try {
     const response = await fetch(url, {
       method: 'POST',

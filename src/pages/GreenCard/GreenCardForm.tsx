@@ -36,7 +36,7 @@ import {
   // initBackButton,
   useInitData,
 } from '@tma.js/sdk-react';
-import { openLink } from '@telegram-apps/sdk';
+// import { openLink, openTelegramLink } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -261,7 +261,7 @@ export const GreenCardForm = () => {
           res.id,
           `${import.meta.env.VITE_URL}/order?order=${res.id}`
         );
-        openLink(`${import.meta.env.VITE_URL}/order?order=${res.id}`);
+        window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
       });
     } catch (err) {
       setConfirmButtonLoading(false);
