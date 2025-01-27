@@ -36,9 +36,9 @@ import {
   // initBackButton,
   useInitData,
 } from '@tma.js/sdk-react';
-import { openLink } from '@telegram-apps/sdk';
+// import { openLink } from '@telegram-apps/sdk';
 // import { openLink, openTelegramLink } from '@telegram-apps/sdk';
-
+import { useNavigate } from 'react-router-dom';
 const initialFormData = {
   region: '',
   idnx: '',
@@ -211,7 +211,7 @@ export const GreenCardForm = () => {
     isFinalDateValid,
     translate,
   ]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setFormData({
       ...formData,
@@ -263,7 +263,8 @@ export const GreenCardForm = () => {
           `${import.meta.env.VITE_URL}/order?order=${res.id}`
         );
         // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
-      openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
+        // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
+        navigate(`/order?order=${res.id}`);
       });
     } catch (err) {
       setConfirmButtonLoading(false);
