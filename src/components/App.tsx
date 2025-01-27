@@ -3,7 +3,7 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
-  initNavigator, useLaunchParams,
+  useLaunchParams,
   useMiniApp,
   useThemeParams,
   useViewport,
@@ -56,8 +56,10 @@ export const App: FC = () => {
     >
       <Router>
         <Routes>
-          {routes.map((route) => <Route key={route.path} {...route} />)}
-          <Route path='*' element={<Navigate to='/'/>}/>
+          {routes.map((route) => (
+            <Route key={route.path} {...route} />
+          ))}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </AppRoot>
