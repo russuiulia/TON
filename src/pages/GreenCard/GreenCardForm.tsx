@@ -37,7 +37,6 @@ import {
   useInitData,
 } from '@tma.js/sdk-react';
 import { openLink } from '@telegram-apps/sdk';
-import { sendMessageToChat } from '@/api/sendMessageToChat';
 
 const initialFormData = {
   region: '',
