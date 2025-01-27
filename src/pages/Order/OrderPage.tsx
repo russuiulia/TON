@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getOrder } from '../../api/getOrder';
 import { InsuranceType } from '../../interfaces/offer';
 import { OrderStatus } from './OrderStatus';
-import { sendDocumentToChat } from '../../api/sendDocumentInChat';
+// import { sendDocumentToChat } from '../../api/sendDocumentInChat';
 import { useLanguage } from '../../LanguageProvider';
 
 export const OrderPage = () => {
