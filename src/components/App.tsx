@@ -59,7 +59,7 @@ export const App: FC = () => {
           {routes.map((route) => (
             <Route key={route.path} {...route} />
           ))}
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </Router>
     </AppRoot>
