@@ -331,7 +331,7 @@ export const OrderPage = () => {
                   <iframe
                     title="payment"
                     ref={iframeRef}
-                    src={`${process.env.REACT_APP_NEXT_PUBLIC_HOST_FUNCTION}/maibData?language=${language}&orderId=${orderParam}&insuranceType=${insuranceType}&isTelegram=true`}
+                    src={`${import.meta.env.VITE_NEXT_PUBLIC_HOST_FUNCTION}/maibData?language=${language}&orderId=${orderParam}&insuranceType=${insuranceType}&isTelegram=true`}
                     style={{
                       width: '100%',
                       height: '100%',
