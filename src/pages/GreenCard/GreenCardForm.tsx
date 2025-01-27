@@ -35,8 +35,6 @@ import {
   initBackButton,
   initHapticFeedback,
   useInitData,
-  initMainButton,
-  // useMainButton,
   usePopup,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +55,6 @@ export const GreenCardForm = () => {
   // const BackButton = initBackButton();
   const initData = useInitData();
   const navigate = useNavigate();
-  const MainButton = initMainButton();
 
   const [buttonText, setButtonText] = useState(translate('calculate'));
   const [isButtonDisabled, setButtonDisabled] = useState(true);
@@ -300,7 +297,7 @@ export const GreenCardForm = () => {
     { value: '365', title: translate('duration-12-months') },
   ];
 
-  // //button logic
+  //button logic
   // useEffect(() => {
   //   const mainButton = window!.Telegram!.WebApp.MainButton;
 
@@ -319,13 +316,7 @@ export const GreenCardForm = () => {
   //   };
   // }, [buttonText]);
 
-  useEffect(() => {
-    MainButton[0].show();
-    MainButton[0].enable();
-    MainButton[0].on('click',()=>{
-      console.log('ss')
-    })
-  }, []);
+  // useEffect(() => {}, [buttonText]);
   return (
     <form style={{ marginTop: '5rem' }}>
       <List
@@ -476,23 +467,23 @@ export const GreenCardForm = () => {
         ></div>
         <Modal
           header={<Modal.Header />}
-          // trigger={
-          //   <FixedLayout
-          //     style={{
-          //       padding: 16,
-          //       backgroundColor: 'var(--tgui--secondary_bg_color)',
-          //     }}
-          //   >
-          //     <Button
-          //       size="m"
-          //       stretched
-          //       disabled={isButtonDisabled}
-          //       loading={isButtonLoading}
-          //     >
-          //       {buttonText}
-          //     </Button>
-          //   </FixedLayout>
-          // }
+          trigger={
+            <FixedLayout
+              style={{
+                padding: 16,
+                backgroundColor: 'var(--tgui--secondary_bg_color)',
+              }}
+            >
+              <Button
+                size="m"
+                stretched
+                disabled={isButtonDisabled}
+                loading={isButtonLoading}
+              >
+                {buttonText}
+              </Button>
+            </FixedLayout>
+          }
         >
           <Placeholder style={{ padding: '0px', alignItems: 'start' }}>
             <List
