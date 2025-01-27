@@ -249,10 +249,10 @@ export const GreenCardForm = () => {
         initData!.user!.id
       ).then((res) => {
         HapticFeedback.notificationOccurred('success');
-        sendMessageToChat(
-          initData!.user!.id.toString(),
-          `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
-        );
+        // sendMessageToChat(
+        //   initData!.user!.id.toString(),
+        //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
+        // );
         sendPreorderToChat(
           initData!.user!.id.toString(),
           `${translate('green-card-with')}${res.id} ${translate(
