@@ -3,14 +3,18 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
-  initNavigator,
+  // initNavigator,
   useLaunchParams,
   useMiniApp,
   useThemeParams,
   useViewport,
 } from '@tma.js/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { type FC, useEffect, useMemo } from 'react';
+import {
+  type FC,
+  useEffect,
+  // useMemo
+} from 'react';
 import {
   // Navigate,
   Route,
