@@ -57,7 +57,7 @@ export const App: FC = () => {
       <Router location={location} navigator={reactNavigator}>
         <Routes>
           {routes.map((route) => <Route key={route.path} {...route} />)}
-          <Route path='*' element={<Navigate to='/'/>}/>
+          {/* <Route path='*' element={<Navigate to='/'/>}/> */}
         </Routes>
       </Router>
     </AppRoot>

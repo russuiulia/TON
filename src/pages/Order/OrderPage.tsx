@@ -245,6 +245,7 @@ export const OrderPage = () => {
               background: 'var(--tgui--secondary_bg_color)',
               padding: '10px',
               paddingTop: '3rem',
+              paddingBottom: '70px',
             }}
           >
             <List>
@@ -287,6 +288,9 @@ export const OrderPage = () => {
               style={{
                 height: '70px',
                 backgroundColor: 'var(--tgui--secondary_bg_color)',
+                border: 'none',
+                boxShadow: 'none',
+                outline: 'none',
               }}
             ></div> */}
             {status === 'draft' && (
