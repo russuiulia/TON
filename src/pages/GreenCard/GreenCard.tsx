@@ -9,7 +9,7 @@ export const GreenCard = () => {
     <>
       <div style={{ background: 'var(--tgui--secondary_bg_color)' }}>
         <TelegramTitle
-          title={'blea'}
+          title={translate('green-card-form:title')}
           subtitle={translate('green-card-form:subtitle')}
         />
         {/* <Section className="m-2"> */}
