@@ -98,9 +98,7 @@ export const Homepage = () => {
                   key={index}
                   subtitle={item.subtitle}
                   before={<Avatar />}
-                  onClick={() =>
-                    HapticFeedback.impactOccurred('heavy')
-                  }
+                  onClick={() => HapticFeedback.impactOccurred('heavy')}
                   disabled={item.disabled}
                 >
                   {item.title}
@@ -109,6 +107,18 @@ export const Homepage = () => {
             </Section>
           ))}
         </List>
+        {/* <Link to={'/order'}>
+          {' '}
+          <Cell
+            multiline
+            key={'index'}
+            subtitle={'sdada'}
+            before={<Avatar />}
+            onClick={() => HapticFeedback.impactOccurred('heavy')}
+          >
+            {'item.title'}
+          </Cell>
+        </Link> */}
       </div>
     </>
   );

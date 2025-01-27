@@ -7,6 +7,7 @@ import { ThemeParamsPage } from '@/pages/ThemeParamsPage/ThemeParamsPage.tsx';
 import { TONConnectPage } from '@/pages/TONConnectPage/TONConnectPage';
 import { Homepage } from '@/pages/Homepage/Homepage';
 import { GreenCard } from '@/pages/GreenCard/GreenCard';
+import { OrderPage } from '@/pages/Order/OrderPage';
 
 interface Route {
   path: string;
@@ -18,6 +19,7 @@ interface Route {
 export const routes: Route[] = [
   { path: '/', Component: Homepage },
   { path: '/green-card', Component: GreenCard },
+  { path: '/order', Component: OrderPage },
   { path: '/init-data', Component: InitDataPage, title: 'Init Data' },
   { path: '/theme-params', Component: ThemeParamsPage, title: 'Theme Params' },
   { path: '/launch-params', Component: LaunchParamsPage, title: 'Launch Params' },

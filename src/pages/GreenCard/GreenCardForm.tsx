@@ -36,6 +36,9 @@ import {
   // initBackButton,
   useInitData,
 } from '@tma.js/sdk-react';
+import { openLink } from '@telegram-apps/sdk';
+import { sendMessageToChat } from '@/api/sendMessageToChat';
+
 const initialFormData = {
   region: '',
   idnx: '',
@@ -82,6 +85,7 @@ export const GreenCardForm = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    console.log(formData);
   };
 
   // useEffect(() => {
@@ -245,10 +249,10 @@ export const GreenCardForm = () => {
         initData!.user!.id
       ).then((res) => {
         HapticFeedback.notificationOccurred('success');
-        // sendMessageToChat(
-        //   window.Telegram?.WebApp.initDataUnsafe.user?.id.toString(),
-        //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
-        // );
+        sendMessageToChat(
+          initData!.user!.id.toString(),
+          `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
+        );
         sendPreorderToChat(
           initData!.user!.id.toString(),
           `${translate('green-card-with')}${res.id} ${translate(
@@ -256,9 +260,9 @@ export const GreenCardForm = () => {
           )}`,
           translate('view-order'),
           res.id,
-          `${process.env.REACT_APP_URL}/order?order=${res.id}`
+          `${import.meta.env.VITE_URL}/order?order=${res.id}`
         );
-        window!.location!.href = `/order?order=${res.id}`;
+        openLink(`${import.meta.env.VITE_URL}/order?order=${res.id}`);
       });
     } catch (err) {
       setConfirmButtonLoading(false);
