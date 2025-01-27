@@ -53,7 +53,6 @@ export const App: FC = () => {
   //   navigator.attach();
   //   return () => navigator.detach();
   // }, [navigator]);
-  console.log(lp.platform);
   return (
     <AppRoot
       appearance={miniApp.isDark ? 'dark' : 'light'}
