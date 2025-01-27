@@ -11,12 +11,17 @@ import { Link } from '@/components/Link/Link.tsx';
 import { useLanguage } from '../../LanguageProvider';
 // import { Icon28Stats } from '@telegram-apps/telegram-ui/dist/icons/28/stats';
 import '@telegram-apps/telegram-ui/dist/styles.css';
-import { initHapticFeedback } from '@tma.js/sdk-react';
+import { initBackButton, initHapticFeedback } from '@tma.js/sdk-react';
+import { useEffect } from 'react';
 
 export const Homepage = () => {
   const { translate } = useLanguage();
   const HapticFeedback = initHapticFeedback();
+  const BackButton = initBackButton();
 
+  useEffect(() => {
+    BackButton[0].hide();
+  }, []);
   const insuranceItems = [
     {
       title: translate('homepage:green-card-title'),

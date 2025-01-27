@@ -32,13 +32,13 @@ import { DateInput } from '../../components/shared/DateInput';
 import { sendPreorderToChat } from '../../api/sendPreorderToChat copy';
 import { useLanguage } from '../../LanguageProvider';
 import {
+  initBackButton,
   initHapticFeedback,
-  // initBackButton,
   useInitData,
+  usePopup,
 } from '@tma.js/sdk-react';
-// import { openLink } from '@telegram-apps/sdk';
-// import { openLink, openTelegramLink } from '@telegram-apps/sdk';
 import { useNavigate } from 'react-router-dom';
+
 const initialFormData = {
   region: '',
   idnx: '',
@@ -54,6 +54,7 @@ export const GreenCardForm = () => {
   const HapticFeedback = initHapticFeedback();
   // const BackButton = initBackButton();
   const initData = useInitData();
+  const navigate = useNavigate();
 
   const [buttonText, setButtonText] = useState(translate('calculate'));
   const [isButtonDisabled, setButtonDisabled] = useState(true);
@@ -88,28 +89,38 @@ export const GreenCardForm = () => {
     console.log(formData);
   };
 
-  // useEffect(() => {
-  //   const handleBackClick = () => {
-  //     if (isChanged) {
-  //       window!.Telegram!.WebApp.showConfirm(
-  //         translate('alert-unsaved-changes'),
-  //         (confirmed) => {
-  //           if (confirmed) {
-  //             window.location.href = '/';
-  //           }
-  //         }
-  //       );
-  //     } else {
-  //       window.location.href = '/';
-  //     }
-  //   };
+  const BackButton = initBackButton();
 
-  //   window!.Telegram!.WebApp.BackButton.onClick(handleBackClick);
+  const popup = usePopup();
+  useEffect(() => {
+    BackButton[0].show();
 
-  //   return () => {
-  //     window!.Telegram!.WebApp.BackButton.offClick(handleBackClick);
-  //   };
-  // }, [isChanged, translate]);
+    const handleBackButton = async () => {
+      if (isChanged) {
+        const buttonId = await popup.open({
+          title: translate('alert-unsaved-changes-title'),
+          message: translate('alert-unsaved-changes'),
+          buttons: [
+            { id: 'ok', type: 'ok' },
+            { id: 'cancel', type: 'cancel' },
+          ],
+        });
+
+        if (buttonId === 'ok') {
+          navigate('/', { replace: true });
+          BackButton[1]();
+        }
+      } else {
+        navigate('/');
+        BackButton[1]();
+      }
+    };
+    BackButton[0].on('click', handleBackButton);
+    return () => {
+      BackButton[0].off('click', handleBackButton);
+      BackButton[1]();
+    };
+  }, [isChanged, translate]);
 
   const validateIdnx = (e: any) => {
     const isIdno = validateIDNO(e.target.value);
@@ -211,7 +222,6 @@ export const GreenCardForm = () => {
     isFinalDateValid,
     translate,
   ]);
-  const navigate = useNavigate();
   useEffect(() => {
     setFormData({
       ...formData,

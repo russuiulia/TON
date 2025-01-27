@@ -27,8 +27,9 @@ export const translations: any = {
     'green-card-form:insurance-period-summary': 'Perioada asigurată:',
     'green-card-form:region-summary': 'Zona de deplasare:',
     calculate: 'Calculează',
+    'alert-unsaved-changes-title': 'Atenție!',
     'alert-unsaved-changes':
-      'Atenție! Aveți date nesalvate. Dacă continuați, modificările vor fi pierdute. Sigur doriți să continuați?',
+      'Aveți date nesalvate. Dacă continuați, modificările vor fi pierdute. Sigur doriți să continuați?',
     'offers-from': 'oferte (de la',
     'view-order': 'Vizualizează comanda',
     'green-card-with': 'Comanda Asigurare Carte Verde cu nr.',
@@ -99,8 +100,9 @@ export const translations: any = {
     'green-card-form:insurance-period-summary': 'Период страховки:',
     'green-card-form:region-summary': 'Зона страхования:',
     calculate: 'Рассчитать',
+    'alert-unsaved-changes-title': 'Внимание!',
     'alert-unsaved-changes':
-      'Внимание! У вас есть несохраненные данные. Если вы продолжите, изменения будут утеряны. Вы уверены, что хотите продолжить?',
+      'У вас есть несохраненные данные. Если вы продолжите, изменения будут утеряны. Вы уверены, что хотите продолжить?',
     'offers-from': 'предложения (от',
     'view-order': 'Просмотреть заказ',
     'green-card-with': 'Заказ на Зеленую карту с номером ',
