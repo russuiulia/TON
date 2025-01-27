@@ -132,7 +132,8 @@ export const OrderPage = () => {
           }
           if (
             prevStatusRef.current !== 'completed' &&
-            res.status === 'completed'
+            prevStatusRef.current !== null &&
+            status === 'completed'
           ) {
             if (initData) {
               HapticFeedback.notificationOccurred('success');
