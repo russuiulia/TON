@@ -261,7 +261,8 @@ export const GreenCardForm = () => {
           res.id,
           `${import.meta.env.VITE_URL}/order?order=${res.id}`
         );
-        window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
+        // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
+        window.location.href = `https://t.me/pleasepleaseworkbot/order?order=${res.id}`;
       });
     } catch (err) {
       setConfirmButtonLoading(false);
