@@ -131,8 +131,7 @@ export const OrderPage = () => {
             }
           }
           if (
-            prevStatusRef.current !== 'completed' &&
-            prevStatusRef.current !== null &&
+            prevStatusRef.current === 'processing' &&
             status === 'completed'
           ) {
             if (initData) {
