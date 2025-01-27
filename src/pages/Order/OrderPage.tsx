@@ -130,10 +130,7 @@ export const OrderPage = () => {
               }
             }
           }
-          if (
-            prevStatusRef.current === 'processing' &&
-            status === 'completed'
-          ) {
+          if (prevStatusRef.current !== 'completed' && status === 'completed') {
             if (initData) {
               HapticFeedback.notificationOccurred('success');
               const messageText =
