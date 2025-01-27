@@ -11,7 +11,7 @@ import {
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { type FC, useEffect } from 'react';
 import {
-  Navigate,
+  // Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
