@@ -3,13 +3,18 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
+  // initNavigator,
   useLaunchParams,
   useMiniApp,
   useThemeParams,
   useViewport,
 } from '@tma.js/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { type FC, useEffect } from 'react';
+import {
+  type FC,
+  useEffect,
+  // useMemo
+} from 'react';
 import {
   // Navigate,
   Route,
@@ -40,7 +45,7 @@ export const App: FC = () => {
   // Create a new application navigator and attach it to the browser history, so it could modify
   // it and listen to its changes.
   // const navigator = useMemo(() => initNavigator('app-navigation-state'), []);
-  // // const [location, reactNavigator] = useIntegration(navigator);
+  // const [location, reactNavigator] = useIntegration(navigator);
 
   // // Don't forget to attach the navigator to allow it to control the BackButton state as well
   // // as browser history.

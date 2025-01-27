@@ -260,7 +260,8 @@ export const GreenCardForm = () => {
           )}`,
           translate('view-order'),
           res.id,
-          `${import.meta.env.VITE_URL}/order?order=${res.id}`
+          // `${import.meta.env.VITE_URL}/order?order=${res.id}`
+          `https://t.me/pleasepleaseworkbot/order?order=${res.id}`
         );
         // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
         // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
