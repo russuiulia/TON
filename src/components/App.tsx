@@ -53,11 +53,11 @@ export const App: FC = () => {
   //   navigator.attach();
   //   return () => navigator.detach();
   // }, [navigator]);
-
+  console.log(lp.platform);
   return (
     <AppRoot
       appearance={miniApp.isDark ? 'dark' : 'light'}
-      platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
+      platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'ios'}
     >
       <Router>
         <Routes>
