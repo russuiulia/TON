@@ -249,6 +249,10 @@ export const GreenCardForm = () => {
         initData!.user!.id
       ).then((res) => {
         HapticFeedback.notificationOccurred('success');
+        // sendMessageToChat(
+        //   initData!.user!.id.toString(),
+        //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
+        // );
         sendPreorderToChat(
           initData!.user!.id.toString(),
           `${translate('green-card-with')}${res.id} ${translate(
@@ -256,8 +260,10 @@ export const GreenCardForm = () => {
           )}`,
           translate('view-order'),
           res.id,
-          `https://t.me/${import.meta.env.VITE_BOT_NAME}/order?order=${res.id}`
+          `https://t.me/pleasepleaseworkbot/order?order=${res.id}`
         );
+        // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
+        // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
         navigate(`/order?order=${res.id}`);
       });
     } catch (err) {
