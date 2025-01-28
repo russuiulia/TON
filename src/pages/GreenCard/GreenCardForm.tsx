@@ -37,10 +37,8 @@ import {
   useInitData,
   usePopup,
   initMainButton,
-
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
-
 
 const initialFormData = {
   region: '',
@@ -89,30 +87,49 @@ export const GreenCardForm = () => {
     isConfirmButtonLoading
   );
 
+  // useEffect(() => {
+  //@ts-ignore
+  // window!.Telegram!.WebApp.MainButton.show();
+
+  // mainButton.mount();
+  // mainButton.setParams({
+  //   isEnabled: false,
+  //   isLoaderVisible: false,
+  //   isVisible: true,
+  //   text: buttonText,
+  //   backgroundColor: '#',
+  // });
+
+  // mainButton.onClick(() => {
+  //   setIsOffersModalOpen(true);
+  // });
+  // return () => {
+  //   mainButton.setParams({
+  //     isVisible: false,
+  //     backgroundColor: '#',
+  //   });
+  // };
+  // }, []);
+
   useEffect(() => {
+    mainButton.show();
     //@ts-ignore
-    window!.Telegram!.WebApp.MainButton.show();
-
+    // window!.Telegram!.WebApp.MainButton.show();
     // mainButton.mount();
-    // mainButton.setParams({
-    //   isEnabled: false,
-    //   isLoaderVisible: false,
-    //   isVisible: true,
-    //   text: buttonText,
-    //   backgroundColor: '#',
-    // });
+    mainButton.setParams({
+      isEnabled: false,
+      isLoaderVisible: false,
+      isVisible: true,
+    });
 
-    // mainButton.onClick(() => {
-    //   setIsOffersModalOpen(true);
-    // });
-    // return () => {
-    //   mainButton.setParams({
-    //     isVisible: false,
-    //     backgroundColor: '#',
-    //   });
-    // };
+    mainButton.on('click', () => {
+      setIsOffersModalOpen(true);
+    });
+
+    return () => {
+      mainButton.hide();
+    };
   }, []);
-
   useEffect(() => {
     mainButton.setParams({
       text: buttonText,
