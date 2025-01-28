@@ -2,12 +2,12 @@
 import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
-  bindViewportCSSVars,
+  // bindViewportCSSVars,
   // initNavigator,
   useLaunchParams,
   useMiniApp,
   useThemeParams,
-  useViewport,
+  // useViewport,
 } from '@tma.js/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import {
@@ -29,16 +29,16 @@ export const App: FC = () => {
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
-  const viewport = useViewport();
+  // const viewport = useViewport();
   // init();
 
-  // useEffect(() => {
-  //   return bindMiniAppCSSVars(miniApp, themeParams);
-  // }, [miniApp, themeParams]);
+  useEffect(() => {
+    return bindMiniAppCSSVars(miniApp, themeParams);
+  }, [miniApp, themeParams]);
 
-  // useEffect(() => {
-  //   return bindThemeParamsCSSVars(themeParams);
-  // }, [themeParams]);
+  useEffect(() => {
+    return bindThemeParamsCSSVars(themeParams);
+  }, [themeParams]);
 
   // useEffect(() => {
   //   return viewport && bindViewportCSSVars(viewport);
