@@ -38,7 +38,8 @@ import {
   usePopup,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
-import { MainButton } from '@twa-dev/sdk/react';
+
+import { mainButton, init } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -78,6 +79,8 @@ export const GreenCardForm = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [isChanged, setIsChanged] = useState(false);
   console.log(
+    isButtonDisabled,
+    isButtonLoading,
     idnxErrorMessage,
     isChanged,
     isConfirmButtonDisabled,
@@ -176,6 +179,10 @@ export const GreenCardForm = () => {
       idnxStatus !== 'error' &&
       isFinalDateValid
     ) {
+      mainButton.setParams({
+        isEnabled: false,
+        isLoaderVisible: true,
+      });
       setButtonDisabled(true);
       setButtonLoading(true);
       getOffers(
@@ -186,6 +193,10 @@ export const GreenCardForm = () => {
       ).then((res) => {
         if (res.hasOwnProperty('error')) {
           setButtonLoading(false);
+          mainButton.setParams({
+            isEnabled: false,
+            isLoaderVisible: false,
+          });
           if (res.error === 'Vehicle not found') {
             setCertificateNumberStatus('error');
             HapticFeedback.notificationOccurred('error');
@@ -208,12 +219,20 @@ export const GreenCardForm = () => {
         setOffers(res);
         setButtonLoading(false);
         setButtonDisabled(false);
+        mainButton.setParams({
+          isEnabled: true,
+          isLoaderVisible: false,
+        });
       });
     } else {
       setButtonText(translate('calculate'));
       setButtonDisabled(true);
       setButtonLoading(false);
       setConfirmButtonDisabled(true);
+      mainButton.setParams({
+        isEnabled: false,
+        isLoaderVisible: false,
+      });
     }
   }, [
     formData.certificateNumber,
@@ -324,7 +343,37 @@ export const GreenCardForm = () => {
   //   // };
   // }, [buttonText]);
 
-  useEffect(() => {}, [buttonText]);
+  // if (mainButton.mount.isAvailable()) {
+
+  // }
+
+  useEffect(() => {
+    init();
+    mainButton.mount();
+    mainButton.setParams({
+      isEnabled: false,
+      isLoaderVisible: false,
+      isVisible: true,
+      text: buttonText,
+      backgroundColor: '#',
+    });
+
+    mainButton.onClick(() => {
+      setIsOffersModalOpen(true);
+    });
+    return () => {
+      mainButton.setParams({
+        isVisible: false,
+        backgroundColor: '#',
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    mainButton.setParams({
+      text: buttonText,
+    });
+  }, [buttonText]);
   return (
     <form style={{ marginTop: '5rem' }}>
       <List
@@ -333,6 +382,7 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
+        {`${JSON.stringify(mainButton.state())}'aaa'`}
         <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
@@ -479,16 +529,7 @@ export const GreenCardForm = () => {
             setIsOffersModalOpen(isOpen);
           }}
           open={isOffersModalOpen}
-          trigger={
-            <MainButton
-              text={buttonText}
-              progress={isButtonLoading}
-              disabled={isButtonDisabled}
-              onClick={() => {
-                setIsOffersModalOpen(true);
-              }}
-            />
-          }
+
           // trigger={
           //   <FixedLayout
           //     style={{
@@ -639,6 +680,14 @@ export const GreenCardForm = () => {
           </Placeholder>
         </Modal>
       </List>
+      {/* <MainButton
+        text={buttonText}
+        progress={isButtonLoading}
+        disabled={isButtonDisabled}
+        onClick={() => {
+          setIsOffersModalOpen(true);
+        }}
+      /> */}
     </form>
   );
 };
