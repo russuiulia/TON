@@ -88,17 +88,22 @@ export const GreenCardForm = () => {
     isConfirmButtonLoading,
     buttonText
   );
-  mainButton.mount();
-  // useEffect(() => {
-  mainButton.setParams({
-    isEnabled: false,
-    isLoaderVisible: false,
-    isVisible: true,
-  });
-  mainButton.onClick(() => {
-    setIsOffersModalOpen(true);
-  });
-  // }, []);
+  useEffect(() => {
+    mainButton.mount();
+    mainButton.setParams({
+      isVisible: true,
+      isEnabled: false,
+    });
+    mainButton.onClick(() => {
+      setIsOffersModalOpen(true);
+    });
+    return () => {
+      mainButton.setParams({
+        isVisible: false,
+        isEnabled: false,
+      });
+    };
+  }, []);
 
   useEffect(() => {
     setIsChanged(JSON.stringify(formData) !== JSON.stringify(initialFormData));
