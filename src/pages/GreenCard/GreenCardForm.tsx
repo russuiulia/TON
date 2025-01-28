@@ -6,7 +6,7 @@ import {
   List,
   // FixedLayout,
   Banner,
-  Button,
+  // Button,
   Radio,
   Input,
   Section,
@@ -77,7 +77,12 @@ export const GreenCardForm = () => {
 
   const [formData, setFormData] = useState(initialFormData);
   const [isChanged, setIsChanged] = useState(false);
-  console.log(idnxErrorMessage, isChanged);
+  console.log(
+    idnxErrorMessage,
+    isChanged,
+    isConfirmButtonDisabled,
+    isConfirmButtonLoading
+  );
   useEffect(() => {
     setIsChanged(JSON.stringify(formData) !== JSON.stringify(initialFormData));
   }, [formData]);
