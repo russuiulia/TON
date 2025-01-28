@@ -36,9 +36,9 @@ import {
   initHapticFeedback,
   useInitData,
   usePopup,
-  initMainButton,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
+import { init, mainButton } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -49,6 +49,7 @@ const initialFormData = {
   startDateData: '',
   company: '',
 };
+// mainButton
 
 export const GreenCardForm = () => {
   const { translate, language } = useLanguage();
@@ -56,8 +57,8 @@ export const GreenCardForm = () => {
   // const BackButton = initBackButton();
   const initData = useInitData();
   const navigate = useNavigate();
-  const [mainButton] = initMainButton();
-
+  // const [mainButton] = initMainButton();
+  init();
   const [buttonText, setButtonText] = useState(translate('calculate'));
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isConfirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
@@ -84,57 +85,20 @@ export const GreenCardForm = () => {
     idnxErrorMessage,
     isChanged,
     isConfirmButtonDisabled,
-    isConfirmButtonLoading
+    isConfirmButtonLoading,
+    buttonText
   );
-
+  mainButton.mount();
   // useEffect(() => {
-  //@ts-ignore
-  // window!.Telegram!.WebApp.MainButton.show();
-
-  // mainButton.mount();
-  // mainButton.setParams({
-  //   isEnabled: false,
-  //   isLoaderVisible: false,
-  //   isVisible: true,
-  //   text: buttonText,
-  //   backgroundColor: '#',
-  // });
-
-  // mainButton.onClick(() => {
-  //   setIsOffersModalOpen(true);
-  // });
-  // return () => {
-  //   mainButton.setParams({
-  //     isVisible: false,
-  //     backgroundColor: '#',
-  //   });
-  // };
+  mainButton.setParams({
+    isEnabled: false,
+    isLoaderVisible: false,
+    isVisible: true,
+  });
+  mainButton.onClick(() => {
+    setIsOffersModalOpen(true);
+  });
   // }, []);
-
-  useEffect(() => {
-    mainButton.show();
-    //@ts-ignore
-    // window!.Telegram!.WebApp.MainButton.show();
-    // mainButton.mount();
-    mainButton.setParams({
-      isEnabled: false,
-      isLoaderVisible: false,
-      isVisible: true,
-    });
-
-    mainButton.on('click', () => {
-      setIsOffersModalOpen(true);
-    });
-
-    return () => {
-      mainButton.hide();
-    };
-  }, []);
-  useEffect(() => {
-    mainButton.setParams({
-      text: buttonText,
-    });
-  }, [buttonText]);
 
   useEffect(() => {
     setIsChanged(JSON.stringify(formData) !== JSON.stringify(initialFormData));
@@ -229,12 +193,12 @@ export const GreenCardForm = () => {
       idnxStatus !== 'error' &&
       isFinalDateValid
     ) {
+      setButtonDisabled(true);
+      setButtonLoading(true);
       mainButton.setParams({
         isEnabled: false,
         isLoaderVisible: true,
       });
-      setButtonDisabled(true);
-      setButtonLoading(true);
       getOffers(
         formData.certificateNumber,
         parseInt(formData.duration),
@@ -244,7 +208,6 @@ export const GreenCardForm = () => {
         if (res.hasOwnProperty('error')) {
           setButtonLoading(false);
           mainButton.setParams({
-            isEnabled: false,
             isLoaderVisible: false,
           });
           if (res.error === 'Vehicle not found') {
@@ -265,6 +228,7 @@ export const GreenCardForm = () => {
             lowestPriceOffer.price
           } ${lowestPriceOffer.currency})`
         );
+
         HapticFeedback.notificationOccurred('success');
         setOffers(res);
         setButtonLoading(false);
@@ -272,6 +236,9 @@ export const GreenCardForm = () => {
         mainButton.setParams({
           isEnabled: true,
           isLoaderVisible: false,
+          text: `${res.offers.length} ${translate('offers-from')} ${
+            lowestPriceOffer.price
+          } ${lowestPriceOffer.currency})`,
         });
       });
     } else {
@@ -280,8 +247,9 @@ export const GreenCardForm = () => {
       setButtonLoading(false);
       setConfirmButtonDisabled(true);
       mainButton.setParams({
-        isEnabled: false,
+        isEnabled: true,
         isLoaderVisible: false,
+        text: translate('calculate'),
       });
     }
   }, [
@@ -297,6 +265,7 @@ export const GreenCardForm = () => {
     isFinalDateValid,
     translate,
   ]);
+
   useEffect(() => {
     setFormData({
       ...formData,
@@ -373,30 +342,6 @@ export const GreenCardForm = () => {
     { value: '365', title: translate('duration-12-months') },
   ];
 
-  //button logic
-  // useEffect(() => {
-  //   //@ts-ignore
-  //   const mainButton = window!.Telegram!.WebApp.MainButton;
-
-  //   mainButton.isVisible = true;
-  //   mainButton.setText(buttonText);
-
-  //   // const handleClick = () => setIsOffersModalOpen(true);
-  //   // const handleOffClick = () => setIsOffersModalOpen(false);
-
-  //   // mainButton.onClick(handleClick);
-  //   // mainButton.offClick(handleOffClick);
-
-  //   // return () => {
-  //   //   mainButton.offClick(handleClick);
-  //   //   mainButton.offClick(handleOffClick);
-  //   // };
-  // }, [buttonText]);
-
-  // if (mainButton.mount.isAvailable()) {
-
-  // }
-
   return (
     <form style={{ marginTop: '5rem' }}>
       <List
@@ -405,7 +350,7 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
-        {/* {`${JSON.stringify(mainButton.state())}'aaa'`} */}
+        {'LOCAL'} {`${mainButton.isVisible}`}
         <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
