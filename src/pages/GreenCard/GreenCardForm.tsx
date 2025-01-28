@@ -36,10 +36,11 @@ import {
   initHapticFeedback,
   useInitData,
   usePopup,
+  initMainButton,
+
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
 
-import { mainButton, init } from '@telegram-apps/sdk-react';
 
 const initialFormData = {
   region: '',
@@ -57,6 +58,7 @@ export const GreenCardForm = () => {
   // const BackButton = initBackButton();
   const initData = useInitData();
   const navigate = useNavigate();
+  const [mainButton] = initMainButton();
 
   const [buttonText, setButtonText] = useState(translate('calculate'));
   const [isButtonDisabled, setButtonDisabled] = useState(true);
@@ -386,7 +388,7 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
-        {`${JSON.stringify(mainButton.state())}'aaa'`}
+        {/* {`${JSON.stringify(mainButton.state())}'aaa'`} */}
         <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"

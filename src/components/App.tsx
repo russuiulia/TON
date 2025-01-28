@@ -23,14 +23,14 @@ import {
 } from 'react-router-dom';
 
 import { routes } from '@/navigation/routes.tsx';
-import { init } from '@telegram-apps/sdk';
+// import { init } from '@telegram-apps/sdk';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
-  init();
+  // init();
 
   // useEffect(() => {
   //   return bindMiniAppCSSVars(miniApp, themeParams);
