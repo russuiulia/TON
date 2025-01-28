@@ -355,8 +355,6 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
-        mainButton.state()
-        {'LOCAL'} {`${JSON.stringify(mainButton.state())}`}
         <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
