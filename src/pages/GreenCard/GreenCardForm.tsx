@@ -38,7 +38,7 @@ import {
   usePopup,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
-import { init, mainButton } from '@telegram-apps/sdk';
+import { init, mainButton, secondaryButton } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -96,7 +96,9 @@ export const GreenCardForm = () => {
       backgroundColor: '#',
       textColor: '#',
     });
-    mainButton.onClick(handleButtonOpenModal);
+    mainButton.onClick(
+      isOffersModalOpen ? handleSubmit : handleButtonOpenModal
+    );
     return () => {
       mainButton.setParams({
         isVisible: false,
@@ -104,37 +106,22 @@ export const GreenCardForm = () => {
       });
     };
   }, []);
+  useEffect(() => {}, [formData, isOffersModalOpen]);
   const handleButtonOpenModal = () => {
     setIsOffersModalOpen(true);
   };
   useEffect(() => {
-    mainButton.onClick(() => {
-      null;
-    });
     // const prevParams = { ...mainButton.state() };
     if (isOffersModalOpen) {
       mainButton.setParams({
         text: translate('green-card-form:submit-button'),
         isEnabled: false,
       });
-      if (
-        (formData.region === 'UA' || formData.region === 'EU') &&
-        formData.duration.length !== 0 &&
-        formData.certificateNumber.length !== 0 &&
-        formData.idnx.length !== 0 &&
-        certificateNumberStatus !== 'error' &&
-        idnxStatus !== 'error' &&
-        isFinalDateValid &&
-        formData.company !== ''
-      ) {
-        mainButton.onClick(handleSubmit);
-      }
     } else {
       setFormData({
         ...formData,
         company: '',
       });
-      mainButton.onClick(handleButtonOpenModal);
       mainButton.setParams({ text: buttonText });
       if (
         (formData.region === 'UA' || formData.region === 'EU') &&
@@ -152,7 +139,6 @@ export const GreenCardForm = () => {
 
   useEffect(() => {
     if (formData.company !== '') {
-      mainButton.onClick(handleSubmit);
       mainButton.setParams({
         isEnabled: true,
       });
