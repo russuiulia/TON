@@ -39,7 +39,7 @@ import {
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
 
-import { mainButton, init } from '@telegram-apps/sdk';
+import { mainButton, init } from '@telegram-apps/sdk-react';
 
 const initialFormData = {
   region: '',
@@ -88,25 +88,27 @@ export const GreenCardForm = () => {
   );
 
   useEffect(() => {
-    init();
-    mainButton.mount();
-    mainButton.setParams({
-      isEnabled: false,
-      isLoaderVisible: false,
-      isVisible: true,
-      text: buttonText,
-      backgroundColor: '#',
-    });
+    //@ts-ignore
+    window!.Telegram!.WebApp.MainButton.show();
 
-    mainButton.onClick(() => {
-      setIsOffersModalOpen(true);
-    });
-    return () => {
-      mainButton.setParams({
-        isVisible: false,
-        backgroundColor: '#',
-      });
-    };
+    // mainButton.mount();
+    // mainButton.setParams({
+    //   isEnabled: false,
+    //   isLoaderVisible: false,
+    //   isVisible: true,
+    //   text: buttonText,
+    //   backgroundColor: '#',
+    // });
+
+    // mainButton.onClick(() => {
+    //   setIsOffersModalOpen(true);
+    // });
+    // return () => {
+    //   mainButton.setParams({
+    //     isVisible: false,
+    //     backgroundColor: '#',
+    //   });
+    // };
   }, []);
 
   useEffect(() => {
@@ -114,7 +116,7 @@ export const GreenCardForm = () => {
       text: buttonText,
     });
   }, [buttonText]);
-  
+
   useEffect(() => {
     setIsChanged(JSON.stringify(formData) !== JSON.stringify(initialFormData));
   }, [formData]);
