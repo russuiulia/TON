@@ -286,6 +286,7 @@ export const GreenCardForm = () => {
       setConfirmButtonLoading(false);
     }
   };
+  console.log(handleSubmit);
 
   const GreenCardOptions = [
     { value: '15', title: translate('duration-15-days') },
