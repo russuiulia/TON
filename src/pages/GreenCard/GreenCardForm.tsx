@@ -93,10 +93,10 @@ export const GreenCardForm = () => {
     mainButton.setParams({
       isVisible: true,
       isEnabled: false,
+      backgroundColor: '#',
+      textColor: '#',
     });
-    mainButton.onClick(() => {
-      setIsOffersModalOpen(true);
-    });
+    mainButton.onClick(handleButtonOpenModal);
     return () => {
       mainButton.setParams({
         isVisible: false,
@@ -104,6 +104,60 @@ export const GreenCardForm = () => {
       });
     };
   }, []);
+  const handleButtonOpenModal = () => {
+    setIsOffersModalOpen(true);
+  };
+  useEffect(() => {
+    mainButton.onClick(() => {
+      null;
+    });
+    // const prevParams = { ...mainButton.state() };
+    if (isOffersModalOpen) {
+      mainButton.setParams({
+        text: translate('green-card-form:submit-button'),
+        isEnabled: false,
+      });
+      if (
+        (formData.region === 'UA' || formData.region === 'EU') &&
+        formData.duration.length !== 0 &&
+        formData.certificateNumber.length !== 0 &&
+        formData.idnx.length !== 0 &&
+        certificateNumberStatus !== 'error' &&
+        idnxStatus !== 'error' &&
+        isFinalDateValid &&
+        formData.company !== ''
+      ) {
+        mainButton.onClick(handleSubmit);
+      }
+    } else {
+      setFormData({
+        ...formData,
+        company: '',
+      });
+      mainButton.onClick(handleButtonOpenModal);
+      mainButton.setParams({ text: buttonText });
+      if (
+        (formData.region === 'UA' || formData.region === 'EU') &&
+        formData.duration.length !== 0 &&
+        formData.certificateNumber.length !== 0 &&
+        formData.idnx.length !== 0 &&
+        certificateNumberStatus !== 'error' &&
+        idnxStatus !== 'error' &&
+        isFinalDateValid
+      ) {
+        mainButton.setParams({ isEnabled: true });
+      }
+    }
+  }, [isOffersModalOpen]);
+
+  useEffect(() => {
+    if (formData.company !== '') {
+      mainButton.onClick(handleSubmit);
+      mainButton.setParams({
+        isEnabled: true,
+      });
+    }
+  }, [formData.company]);
 
   useEffect(() => {
     setIsChanged(JSON.stringify(formData) !== JSON.stringify(initialFormData));
@@ -292,6 +346,10 @@ export const GreenCardForm = () => {
     try {
       const { certificateNumber, region, duration, startDate, idnx, company } =
         formData;
+      mainButton.setParams({
+        isEnabled: false,
+        isLoaderVisible: true,
+      });
       setConfirmButtonLoading(true);
       setConfirmButtonDisabled(true);
       const date =
