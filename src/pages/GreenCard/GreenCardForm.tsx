@@ -473,6 +473,16 @@ export const GreenCardForm = () => {
             setIsOffersModalOpen(isOpen);
           }}
           open={isOffersModalOpen}
+          trigger={
+            <MainButton
+              text={buttonText}
+              progress={isButtonLoading}
+              disabled={isButtonDisabled}
+              onClick={() => {
+                setIsOffersModalOpen(true);
+              }}
+            />
+          }
           // trigger={
           //   <FixedLayout
           //     style={{
@@ -609,7 +619,7 @@ export const GreenCardForm = () => {
                 width: '92%',
               }}
             >
-              <Button
+              {/* <Button
                 size="m"
                 stretched
                 type="submit"
@@ -618,20 +628,11 @@ export const GreenCardForm = () => {
                 loading={isConfirmButtonLoading}
               >
                 {translate('green-card-form:submit-button')}
-              </Button>
+              </Button> */}
             </div>
           </Placeholder>
         </Modal>
       </List>
-
-      <MainButton
-        text={buttonText}
-        progress={isButtonLoading}
-        disabled={isButtonDisabled}
-        onClick={() => {
-          setIsOffersModalOpen(true);
-        }}
-      />
     </form>
   );
 };
