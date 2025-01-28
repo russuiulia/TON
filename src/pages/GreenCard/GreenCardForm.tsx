@@ -4,7 +4,7 @@ import {
   Modal,
   Placeholder,
   List,
-  FixedLayout,
+  // FixedLayout,
   Banner,
   Button,
   Radio,
