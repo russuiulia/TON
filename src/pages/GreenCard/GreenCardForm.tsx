@@ -38,6 +38,7 @@ import {
   usePopup,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
+import { MainButton } from '@twa-dev/sdk/react';
 
 const initialFormData = {
   region: '',
@@ -72,7 +73,7 @@ export const GreenCardForm = () => {
   >('default');
   const [idnxErrorMessage, setIdnxErrorMessage] = useState('');
   const [carSummary, setCarSummary] = useState('');
-  // const [isOffersModalOpen, setIsOffersModalOpen] = useState(false);
+  const [isOffersModalOpen, setIsOffersModalOpen] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
   const [isChanged, setIsChanged] = useState(false);
@@ -299,24 +300,25 @@ export const GreenCardForm = () => {
 
   //button logic
   // useEffect(() => {
+  //   //@ts-ignore
   //   const mainButton = window!.Telegram!.WebApp.MainButton;
 
   //   mainButton.isVisible = true;
   //   mainButton.setText(buttonText);
 
-  //   const handleClick = () => setIsOffersModalOpen(true);
-  //   const handleOffClick = () => setIsOffersModalOpen(false);
+  //   // const handleClick = () => setIsOffersModalOpen(true);
+  //   // const handleOffClick = () => setIsOffersModalOpen(false);
 
-  //   mainButton.onClick(handleClick);
-  //   mainButton.offClick(handleOffClick);
+  //   // mainButton.onClick(handleClick);
+  //   // mainButton.offClick(handleOffClick);
 
-  //   return () => {
-  //     mainButton.offClick(handleClick);
-  //     mainButton.offClick(handleOffClick);
-  //   };
+  //   // return () => {
+  //   //   mainButton.offClick(handleClick);
+  //   //   mainButton.offClick(handleOffClick);
+  //   // };
   // }, [buttonText]);
 
-  // useEffect(() => {}, [buttonText]);
+  useEffect(() => {}, [buttonText]);
   return (
     <form style={{ marginTop: '5rem' }}>
       <List
@@ -461,29 +463,35 @@ export const GreenCardForm = () => {
         </Section>
         <div
           style={{
-            height: '100px',
+            height: '150px',
             backgroundColor: 'var(--tgui--secondary_bg_color)',
           }}
         ></div>
         <Modal
           header={<Modal.Header />}
-          trigger={
-            <FixedLayout
-              style={{
-                padding: 16,
-                backgroundColor: 'var(--tgui--secondary_bg_color)',
-              }}
-            >
-              <Button
-                size="m"
-                stretched
-                disabled={isButtonDisabled}
-                loading={isButtonLoading}
-              >
-                {buttonText}
-              </Button>
-            </FixedLayout>
-          }
+          onOpenChange={(isOpen) => {
+            setIsOffersModalOpen(isOpen);
+          }}
+          open={isOffersModalOpen}
+          // trigger={
+          //   <FixedLayout
+          //     style={{
+          //       padding: 16,
+          //       backgroundColor: 'var(--tgui--secondary_bg_color)',
+          //     }}
+          //   >
+          //     <Button size="m" stretched>
+          //       {buttonText}
+          //     </Button>
+          //   </FixedLayout>
+          // <MainButton
+          //   text={buttonText}
+          //   disabled={isButtonDisabled}
+
+          //   // loading={isButtonLoading}
+          //   // onClick={() => alert('submitted')}
+          // />
+          // }
         >
           <Placeholder style={{ padding: '0px', alignItems: 'start' }}>
             <List
@@ -615,6 +623,15 @@ export const GreenCardForm = () => {
           </Placeholder>
         </Modal>
       </List>
+
+      <MainButton
+        text={buttonText}
+        progress={isButtonLoading}
+        disabled={isButtonDisabled}
+        onClick={() => {
+          setIsOffersModalOpen(true);
+        }}
+      />
     </form>
   );
 };
