@@ -252,7 +252,7 @@ export const GreenCardForm = () => {
       setButtonLoading(false);
       setConfirmButtonDisabled(true);
       mainButton.setParams({
-        isEnabled: true,
+        // isEnabled: true,
         isLoaderVisible: false,
         text: translate('calculate'),
       });
@@ -268,7 +268,7 @@ export const GreenCardForm = () => {
     certificateNumberStatus,
     idnxStatus,
     isFinalDateValid,
-    translate,
+    // translate,
   ]);
 
   useEffect(() => {
@@ -355,7 +355,8 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
-        {'LOCAL'} {`${mainButton.isVisible}`}
+        mainButton.state()
+        {'LOCAL'} {`${JSON.stringify(mainButton.state())}`}
         <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
