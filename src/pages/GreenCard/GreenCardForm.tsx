@@ -86,6 +86,35 @@ export const GreenCardForm = () => {
     isConfirmButtonDisabled,
     isConfirmButtonLoading
   );
+
+  useEffect(() => {
+    init();
+    mainButton.mount();
+    mainButton.setParams({
+      isEnabled: false,
+      isLoaderVisible: false,
+      isVisible: true,
+      text: buttonText,
+      backgroundColor: '#',
+    });
+
+    mainButton.onClick(() => {
+      setIsOffersModalOpen(true);
+    });
+    return () => {
+      mainButton.setParams({
+        isVisible: false,
+        backgroundColor: '#',
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    mainButton.setParams({
+      text: buttonText,
+    });
+  }, [buttonText]);
+
   useEffect(() => {
     setIsChanged(JSON.stringify(formData) !== JSON.stringify(initialFormData));
   }, [formData]);
@@ -347,33 +376,6 @@ export const GreenCardForm = () => {
 
   // }
 
-  useEffect(() => {
-    init();
-    mainButton.mount();
-    mainButton.setParams({
-      isEnabled: false,
-      isLoaderVisible: false,
-      isVisible: true,
-      text: buttonText,
-      backgroundColor: '#',
-    });
-
-    mainButton.onClick(() => {
-      setIsOffersModalOpen(true);
-    });
-    return () => {
-      mainButton.setParams({
-        isVisible: false,
-        backgroundColor: '#',
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    mainButton.setParams({
-      text: buttonText,
-    });
-  }, [buttonText]);
   return (
     <form style={{ marginTop: '5rem' }}>
       <List
@@ -382,7 +384,6 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
-        {`${JSON.stringify(mainButton.state())}'aaa'`}
         <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
