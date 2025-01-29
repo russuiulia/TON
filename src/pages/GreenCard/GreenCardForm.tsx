@@ -179,6 +179,7 @@ export const GreenCardForm = () => {
 
           mainButton.setParams({
             isLoaderVisible: true,
+            hasShineEffect: false,
             isEnabled: false,
           });
           const res = await createOrder(
@@ -357,6 +358,7 @@ export const GreenCardForm = () => {
       mainButton.setParams({
         isEnabled: false,
         isLoaderVisible: true,
+        hasShineEffect: false,
       });
       getOffers(
         formData.certificateNumber,
