@@ -445,6 +445,7 @@ export const GreenCardForm = () => {
 
   return (
     <form style={{ marginTop: '5rem' }}>
+      {`${themeParams.hintColor()} ${themeParams.textColor()}`}
       <List
         style={{
           background: 'var(--tgui--secondary_bg_color)',
