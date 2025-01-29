@@ -9,15 +9,21 @@ import {
   Spinner,
 } from '@telegram-apps/telegram-ui';
 import { TelegramTitle } from '../../components/shared/TelegramTitle';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { getOrder } from '../../api/getOrder';
 import { InsuranceType } from '../../interfaces/offer';
 import { OrderStatus } from './OrderStatus';
 // import { sendDocumentToChat } from '../../api/sendDocumentInChat';
 import { useLanguage } from '../../LanguageProvider';
-import { useHapticFeedback, useInitData } from '@tma.js/sdk-react';
+import {
+  useHapticFeedback,
+  useInitData,
+  useThemeParams,
+  useBackButton,
+} from '@tma.js/sdk-react';
 import { sendDocumentToChat } from '@/api/sendDocumentInChat';
+import { backButton, init, mainButton } from '@telegram-apps/sdk';
 
 export const OrderPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,6 +50,30 @@ export const OrderPage = () => {
   }, [orderParam, language]);
 
   const prevStatusRef = useRef(null);
+  const themeParams = useThemeParams();
+  init();
+  useEffect(() => {
+    backButton.mount();
+    backButton.hide();
+    backButton.unmount();
+
+    mainButton.mount();
+    mainButton.setParams({
+      isVisible: true,
+      isEnabled: true,
+      isLoaderVisible: false,
+      backgroundColor: themeParams.buttonColor,
+      textColor: themeParams.buttonTextColor,
+    });
+    // mainButton.onClick(handleMainButtonClick);
+    return () => {
+      mainButton.setParams({
+        isLoaderVisible: false,
+        isVisible: false,
+        isEnabled: false,
+      });
+    };
+  }, []);
 
   useEffect(() => {
     let interval: any;
@@ -171,6 +201,13 @@ export const OrderPage = () => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   if (notFound) {
+    const navigate = useNavigate();
+    mainButton.setParams({
+      text: translate('order-not-found:button'),
+    });
+    mainButton.onClick(() => {
+      navigate('/');
+    });
     return (
       <>
         <div
@@ -203,7 +240,32 @@ export const OrderPage = () => {
       </>
     );
   }
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
+  useEffect(() => {
+    mainButton.setParams({
+      isEnabled: !isPaymentDisabled,
+      isLoaderVisible: !isLoaded,
+    });
+  }, [isLoaded, isPaymentDisabled]);
+  useEffect(() => {
+    if (status === 'paid' || status === 'processing' || status === 'issued') {
+      mainButton.setParams({
+        isVisible: false,
+      });
+    }
+    if (status === 'draft') {
+      mainButton.onClick(() => {
+        setIsPaymentModalOpen(true);
+      });
+      mainButton.setParams({
+        // text: `${translate('order:pay')} (${price} ${currency})`,
+        text: `${
+          import.meta.env.VITE_NEXT_PUBLIC_HOST_FUNCTION
+        }/maibData?language=${language}&orderId=${orderParam}&insuranceType=${insuranceType}&isTelegram=true`,
+      });
+    }
+  }, [status]);
   return (
     <>
       <div
@@ -288,24 +350,10 @@ export const OrderPage = () => {
                   height: '100%',
                 }}
                 header={<Modal.Header />}
-                trigger={
-                  <FixedLayout
-                    style={{
-                      zIndex: 1,
-                      padding: 16,
-                      backgroundColor: 'var(--tgui--secondary_bg_color)',
-                    }}
-                  >
-                    <Button
-                      size="m"
-                      stretched
-                      loading={!isLoaded}
-                      disabled={isPaymentDisabled}
-                    >
-                      {`${translate('order:pay')} (${price} ${currency})`}
-                    </Button>
-                  </FixedLayout>
-                }
+                onOpenChange={(isOpen) => {
+                  setIsPaymentModalOpen(isOpen);
+                }}
+                open={isPaymentModalOpen}
               >
                 <div
                   style={{
@@ -343,24 +391,7 @@ export const OrderPage = () => {
                 </div>
               </Modal>
             )}
-            {/* {(status === 'issued' ||
-              status === 'paid' ||
-              status === 'processing') && (
-              <FixedLayout
-                style={{
-                  zIndex: 1,
-                  padding: 16,
-                  backgroundColor: 'var(--tgui--secondary_bg_color)',
-                }}
-              >
-                <Button
-                  size="l"
-                  stretched
-                  loading={true}
-                  disabled={true}
-                ></Button>
-              </FixedLayout>
-            )} */}
+
             {(status === 'expired' ||
               status === 'failed' ||
               status === 'refunded') && (

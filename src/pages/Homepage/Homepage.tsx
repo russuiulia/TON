@@ -112,7 +112,8 @@ export const Homepage = () => {
             </Section>
           ))}
         </List>
-        {/* <Link to={'/order'}>
+
+        <Link to={'/order?order=IAE200334OAY '}>
           {' '}
           <Cell
             multiline
@@ -123,7 +124,7 @@ export const Homepage = () => {
           >
             {'item.title'}
           </Cell>
-        </Link> */}
+        </Link>
       </div>
     </>
   );
