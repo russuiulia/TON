@@ -36,9 +36,10 @@ import {
   initHapticFeedback,
   useInitData,
   usePopup,
+  useThemeParams,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
-import { init, mainButton, themeParams } from '@telegram-apps/sdk';
+import { init, mainButton } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -50,6 +51,7 @@ const initialFormData = {
   company: '',
 };
 // mainButton
+const themeParams = useThemeParams();
 
 export const GreenCardForm = () => {
   const { translate, language } = useLanguage();
@@ -93,8 +95,8 @@ export const GreenCardForm = () => {
     mainButton.setParams({
       isVisible: true,
       isEnabled: false,
-      backgroundColor: themeParams.hintColor(),
-      textColor: themeParams.textColor(),
+      backgroundColor: themeParams.hintColor,
+      textColor: themeParams.textColor,
     });
     mainButton.onClick(handleMainButtonClick);
     return () => {
@@ -445,14 +447,18 @@ export const GreenCardForm = () => {
 
   return (
     <form style={{ marginTop: '5rem' }}>
-      {`${themeParams.hintColor()} ${themeParams.textColor()}`}
       <List
         style={{
           background: 'var(--tgui--secondary_bg_color)',
           height: '100%',
         }}
       >
-        <Section header={translate('green-card-form:region-label')}>
+        {/* <Section header={translate('green-card-form:region-label')}> */}
+        <Section
+          header={`${themeParams!.getState().hintColor} ${
+            themeParams!.getState().textColor
+          }aaaaa`}
+        >
           <Cell
             Component="label"
             before={
