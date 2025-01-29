@@ -51,7 +51,6 @@ const initialFormData = {
   company: '',
 };
 // mainButton
-const themeParams = useThemeParams();
 
 export const GreenCardForm = () => {
   const { translate, language } = useLanguage();
@@ -59,8 +58,10 @@ export const GreenCardForm = () => {
   // const BackButton = initBackButton();
   const initData = useInitData();
   const navigate = useNavigate();
-  // const [mainButton] = initMainButton();
+
   init();
+
+  const themeParams = useThemeParams();
   const [buttonText, setButtonText] = useState(translate('calculate'));
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isConfirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
@@ -95,8 +96,8 @@ export const GreenCardForm = () => {
     mainButton.setParams({
       isVisible: true,
       isEnabled: false,
-      backgroundColor: themeParams.hintColor,
-      textColor: themeParams.textColor,
+      backgroundColor: themeParams.buttonColor,
+      textColor: themeParams.buttonTextColor,
     });
     mainButton.onClick(handleMainButtonClick);
     return () => {
@@ -453,12 +454,7 @@ export const GreenCardForm = () => {
           height: '100%',
         }}
       >
-        {/* <Section header={translate('green-card-form:region-label')}> */}
-        <Section
-          header={`${themeParams!.getState().hintColor} ${
-            themeParams!.getState().textColor
-          }aaaaa`}
-        >
+        <Section header={translate('green-card-form:region-label')}>
           <Cell
             Component="label"
             before={
