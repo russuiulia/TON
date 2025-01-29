@@ -19,7 +19,7 @@ import {
   getNextTenDaysForAPI,
   getNextTenDays,
 } from './constants';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getOffers } from '../../api/getOffers';
 import { Offer } from '../../interfaces/offer';
 import {
@@ -96,9 +96,7 @@ export const GreenCardForm = () => {
       backgroundColor: '#',
       textColor: '#',
     });
-    mainButton.onClick(
-      isOffersModalOpen ? handleSubmit : handleButtonOpenModal
-    );
+    mainButton.onClick(handleMainButtonClick);
     return () => {
       mainButton.setParams({
         isVisible: false,
@@ -106,9 +104,95 @@ export const GreenCardForm = () => {
       });
     };
   }, []);
-  useEffect(() => {}, [formData, isOffersModalOpen]);
-  const handleButtonOpenModal = () => {
-    setIsOffersModalOpen(true);
+
+  const [isFormValidForSubmit, setIsFormValidForSubmit] = useState(false);
+
+  useEffect(() => {
+    setIsFormValidForSubmit(
+      (formData.region === 'UA' || formData.region === 'EU') &&
+        formData.duration.length !== 0 &&
+        formData.certificateNumber.length !== 0 &&
+        formData.idnx.length !== 0 &&
+        certificateNumberStatus !== 'error' &&
+        idnxStatus !== 'error' &&
+        isFinalDateValid &&
+        formData.company.length !== 0
+    );
+  }, [formData, certificateNumberStatus, isFinalDateValid, idnxStatus]);
+
+  const isOffersModalOpenRef = useRef(isOffersModalOpen);
+  const isFormValidForSubmitRef = useRef(isFormValidForSubmit);
+  useEffect(() => {
+    isOffersModalOpenRef.current = isOffersModalOpen;
+    isFormValidForSubmitRef.current = isFormValidForSubmit;
+  }, [isOffersModalOpen, isFormValidForSubmit]);
+
+  const handleMainButtonClick = () => {
+    // alert(
+    //   `clicked true ${isFormValidForSubmitRef.current} ${isOffersModalOpenRef.current}`
+    // );
+
+    if (isOffersModalOpenRef.current) {
+      // alert('one true');
+
+      if (isFormValidForSubmitRef.current) {
+        // alert('both true');
+        try {
+          const {
+            certificateNumber,
+            region,
+            duration,
+            startDate,
+            idnx,
+            company,
+          } = formData;
+
+          setConfirmButtonLoading(true);
+          setConfirmButtonDisabled(true);
+          const date =
+            startDate === 'otherday'
+              ? formatDateForAPI(formData.startDateData)
+              : startDate;
+          mainButton.setParams({
+            isLoaderVisible: true,
+            isEnabled: false,
+          });
+          createOrder(
+            date,
+            certificateNumber,
+            parseInt(duration),
+            region,
+            idnx,
+            company,
+            initData!.user!.id
+          ).then((res) => {
+            HapticFeedback.notificationOccurred('success');
+            // sendMessageToChat(
+            //   initData!.user!.id.toString(),
+            //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
+            // );
+            sendPreorderToChat(
+              initData!.user!.id.toString(),
+              `${translate('green-card-with')}${res.id} ${translate(
+                'green-card-was-created'
+              )}`,
+              translate('view-order'),
+              res.id,
+              `${import.meta.env.VITE_URL}/order?order=${res.id}`
+            );
+            // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
+            // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
+            navigate(`/order?order=${res.id}`);
+          });
+        } catch (err) {
+          setConfirmButtonLoading(false);
+        }
+      }
+      // }
+    } else {
+      // Open the modal
+      setIsOffersModalOpen(true);
+    }
   };
   useEffect(() => {
     // const prevParams = { ...mainButton.state() };
@@ -117,11 +201,21 @@ export const GreenCardForm = () => {
         text: translate('green-card-form:submit-button'),
         isEnabled: false,
       });
+      if (
+        (formData.region === 'UA' || formData.region === 'EU') &&
+        formData.duration.length !== 0 &&
+        formData.certificateNumber.length !== 0 &&
+        formData.idnx.length !== 0 &&
+        certificateNumberStatus !== 'error' &&
+        idnxStatus !== 'error' &&
+        isFinalDateValid &&
+        formData.company.length !== 0
+      ) {
+        mainButton.setParams({
+          isEnabled: true,
+        });
+      }
     } else {
-      setFormData({
-        ...formData,
-        company: '',
-      });
       mainButton.setParams({ text: buttonText });
       if (
         (formData.region === 'UA' || formData.region === 'EU') &&
@@ -312,10 +406,6 @@ export const GreenCardForm = () => {
   ]);
 
   useEffect(() => {
-    setFormData({
-      ...formData,
-      company: '',
-    });
     setConfirmButtonDisabled(true);
     const carInfo = offers?.offers[0]?.name.split(', ').pop() || '';
     setCarSummary(carInfo);
@@ -328,6 +418,7 @@ export const GreenCardForm = () => {
       setConfirmButtonDisabled(true);
     }
   }, [formData.company]);
+
   const handleSubmit = () => {
     try {
       const { certificateNumber, region, duration, startDate, idnx, company } =
@@ -373,7 +464,6 @@ export const GreenCardForm = () => {
       setConfirmButtonLoading(false);
     }
   };
-  console.log(handleSubmit);
 
   const GreenCardOptions = [
     { value: '15', title: translate('duration-15-days') },
@@ -601,6 +691,9 @@ export const GreenCardForm = () => {
                   boxShadow: 'none ',
                 }}
               ></Banner>
+              {JSON.stringify(formData)}
+              {`${isFormValidForSubmit}`}
+              {`${isOffersModalOpen}`}
               <Banner
                 //@ts-ignore
                 callout={translate('green-card-form:region-summary')}
