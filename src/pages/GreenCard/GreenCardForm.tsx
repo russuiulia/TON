@@ -4,9 +4,7 @@ import {
   Modal,
   Placeholder,
   List,
-  // FixedLayout,
   Banner,
-  // Button,
   Radio,
   Input,
   Section,
@@ -50,12 +48,10 @@ const initialFormData = {
   startDateData: '',
   company: '',
 };
-// mainButton
 
 export const GreenCardForm = () => {
   const { translate, language } = useLanguage();
   const HapticFeedback = initHapticFeedback();
-  // const BackButton = initBackButton();
   const initData = useInitData();
   const navigate = useNavigate();
 
@@ -600,26 +596,6 @@ export const GreenCardForm = () => {
             setIsOffersModalOpen(isOpen);
           }}
           open={isOffersModalOpen}
-
-          // trigger={
-          //   <FixedLayout
-          //     style={{
-          //       padding: 16,
-          //       backgroundColor: 'var(--tgui--secondary_bg_color)',
-          //     }}
-          //   >
-          //     <Button size="m" stretched>
-          //       {buttonText}
-          //     </Button>
-          //   </FixedLayout>
-          // <MainButton
-          //   text={buttonText}
-          //   disabled={isButtonDisabled}
-
-          //   // loading={isButtonLoading}
-          //   // onClick={() => alert('submitted')}
-          // />
-          // }
         >
           <Placeholder style={{ padding: '0px', alignItems: 'start' }}>
             <List
@@ -671,7 +647,6 @@ export const GreenCardForm = () => {
                     : ''
                 }
                 style={{
-                  // margin: '0',
                   paddingBottom: '15px',
                   boxSizing: 'content-box',
                   boxShadow: 'none ',
@@ -740,29 +715,10 @@ export const GreenCardForm = () => {
                 padding: '16px',
                 width: '92%',
               }}
-            >
-              {/* <Button
-                size="m"
-                stretched
-                type="submit"
-                onClick={handleSubmit}
-                disabled={isConfirmButtonDisabled}
-                loading={isConfirmButtonLoading}
-              >
-                {translate('green-card-form:submit-button')}
-              </Button> */}
-            </div>
+            ></div>
           </Placeholder>
         </Modal>
       </List>
-      {/* <MainButton
-        text={buttonText}
-        progress={isButtonLoading}
-        disabled={isButtonDisabled}
-        onClick={() => {
-          setIsOffersModalOpen(true);
-        }}
-      /> */}
     </form>
   );
 };
