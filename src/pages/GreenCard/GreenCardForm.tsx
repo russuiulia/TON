@@ -131,10 +131,21 @@ export const GreenCardForm = () => {
     ) {
       mainButton.setParams({
         isEnabled: false,
+        text: translate('calculate'),
       });
     }
   }, [formData, certificateNumberStatus, isFinalDateValid, idnxStatus]);
-
+  useEffect(() => {
+    if (isFormValidForSubmit) {
+      mainButton.setParams({
+        hasShineEffect: true,
+      });
+    } else {
+      mainButton.setParams({
+        hasShineEffect: false,
+      });
+    }
+  }, [isFormValidForSubmit]);
   const isOffersModalOpenRef = useRef(isOffersModalOpen);
   const isFormValidForSubmitRef = useRef(isFormValidForSubmit);
   useEffect(() => {
@@ -643,7 +654,7 @@ export const GreenCardForm = () => {
                     : ''
                 }
                 style={{
-                  paddingBottom: '15px',
+                  paddingBottom: '10px',
                   boxSizing: 'content-box',
                   boxShadow: 'none ',
                 }}
@@ -653,6 +664,7 @@ export const GreenCardForm = () => {
               header={translate('green-card-form:insurance-company')}
               style={{
                 width: '100%',
+                marginBottom: '20px',
               }}
             >
               {offers.offers.map((offer: Offer) => {
@@ -706,12 +718,6 @@ export const GreenCardForm = () => {
                 );
               })}
             </Section>
-            <div
-              style={{
-                padding: '16px',
-                width: '92%',
-              }}
-            ></div>
           </Placeholder>
         </Modal>
       </List>
