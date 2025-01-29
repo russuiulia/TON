@@ -93,8 +93,8 @@ export const GreenCardForm = () => {
     mainButton.setParams({
       isVisible: true,
       isEnabled: false,
-      backgroundColor: '#',
-      textColor: '#',
+      // backgroundColor: '#',
+      // textColor: '#',
     });
     mainButton.onClick(handleMainButtonClick);
     return () => {
@@ -656,7 +656,7 @@ export const GreenCardForm = () => {
               {JSON.stringify(formData)}
               {`${isFormValidForSubmit}`}
               {`${isOffersModalOpen}`}
-              
+
               <Banner
                 //@ts-ignore
                 callout={translate('green-card-form:region-summary')}
