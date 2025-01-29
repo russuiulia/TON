@@ -38,7 +38,7 @@ import {
   usePopup,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
-import { init, mainButton } from '@telegram-apps/sdk';
+import { init, mainButton, themeParams } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -93,8 +93,8 @@ export const GreenCardForm = () => {
     mainButton.setParams({
       isVisible: true,
       isEnabled: false,
-      // backgroundColor: '#',
-      // textColor: '#',
+      backgroundColor: themeParams.hintColor(),
+      textColor: themeParams.textColor(),
     });
     mainButton.onClick(handleMainButtonClick);
     return () => {
