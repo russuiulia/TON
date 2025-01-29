@@ -656,6 +656,7 @@ export const GreenCardForm = () => {
               {JSON.stringify(formData)}
               {`${isFormValidForSubmit}`}
               {`${isOffersModalOpen}`}
+              
               <Banner
                 //@ts-ignore
                 callout={translate('green-card-form:region-summary')}
