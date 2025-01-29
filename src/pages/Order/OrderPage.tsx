@@ -20,7 +20,7 @@ import {
   useHapticFeedback,
   useInitData,
   useThemeParams,
-  useBackButton,
+  // useBackButton,
 } from '@tma.js/sdk-react';
 import { sendDocumentToChat } from '@/api/sendDocumentInChat';
 import { backButton, init, mainButton } from '@telegram-apps/sdk';
@@ -40,6 +40,7 @@ export const OrderPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [insuranceType, setInsuranceType] = useState('');
   // const [openModal, setOpenModal] = useState(false);
+  console.log(price, currency);
   const { translate, language } = useLanguage();
   const initData = useInitData();
   const HapticFeedback = useHapticFeedback();
