@@ -38,7 +38,7 @@ import {
   usePopup,
 } from '@tma.js/sdk-react';
 import { useNavigate } from 'react-router-dom';
-import { init, mainButton, secondaryButton } from '@telegram-apps/sdk';
+import { init, mainButton } from '@telegram-apps/sdk';
 
 const initialFormData = {
   region: '',
@@ -106,6 +106,7 @@ export const GreenCardForm = () => {
   }, []);
 
   const [isFormValidForSubmit, setIsFormValidForSubmit] = useState(false);
+  const formDataRef = useRef(formData);
 
   useEffect(() => {
     setIsFormValidForSubmit(
@@ -118,6 +119,21 @@ export const GreenCardForm = () => {
         isFinalDateValid &&
         formData.company.length !== 0
     );
+    if (
+      !(
+        (formData.region === 'UA' || formData.region === 'EU') &&
+        formData.duration.length !== 0 &&
+        formData.certificateNumber.length !== 0 &&
+        formData.idnx.length !== 0 &&
+        certificateNumberStatus !== 'error' &&
+        idnxStatus !== 'error' &&
+        isFinalDateValid
+      )
+    ) {
+      mainButton.setParams({
+        isEnabled: false,
+      });
+    }
   }, [formData, certificateNumberStatus, isFinalDateValid, idnxStatus]);
 
   const isOffersModalOpenRef = useRef(isOffersModalOpen);
@@ -126,17 +142,13 @@ export const GreenCardForm = () => {
     isOffersModalOpenRef.current = isOffersModalOpen;
     isFormValidForSubmitRef.current = isFormValidForSubmit;
   }, [isOffersModalOpen, isFormValidForSubmit]);
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
 
-  const handleMainButtonClick = () => {
-    // alert(
-    //   `clicked true ${isFormValidForSubmitRef.current} ${isOffersModalOpenRef.current}`
-    // );
-
+  const handleMainButtonClick = async () => {
     if (isOffersModalOpenRef.current) {
-      // alert('one true');
-
       if (isFormValidForSubmitRef.current) {
-        // alert('both true');
         try {
           const {
             certificateNumber,
@@ -145,19 +157,21 @@ export const GreenCardForm = () => {
             startDate,
             idnx,
             company,
-          } = formData;
+          } = formDataRef.current;
 
           setConfirmButtonLoading(true);
           setConfirmButtonDisabled(true);
+
           const date =
             startDate === 'otherday'
               ? formatDateForAPI(formData.startDateData)
               : startDate;
+
           mainButton.setParams({
             isLoaderVisible: true,
             isEnabled: false,
           });
-          createOrder(
+          const res = await createOrder(
             date,
             certificateNumber,
             parseInt(duration),
@@ -165,37 +179,33 @@ export const GreenCardForm = () => {
             idnx,
             company,
             initData!.user!.id
-          ).then((res) => {
-            HapticFeedback.notificationOccurred('success');
-            // sendMessageToChat(
-            //   initData!.user!.id.toString(),
-            //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
-            // );
-            sendPreorderToChat(
-              initData!.user!.id.toString(),
-              `${translate('green-card-with')}${res.id} ${translate(
-                'green-card-was-created'
-              )}`,
-              translate('view-order'),
-              res.id,
-              `${import.meta.env.VITE_URL}/order?order=${res.id}`
-            );
-            // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
-            // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
-            navigate(`/order?order=${res.id}`);
-          });
+          );
+
+          HapticFeedback.notificationOccurred('success');
+
+          sendPreorderToChat(
+            initData!.user!.id.toString(),
+            `${translate('green-card-with')}${res.id} ${translate(
+              'green-card-was-created'
+            )}`,
+            translate('view-order'),
+            res.id,
+            `${import.meta.env.VITE_URL}/order?order=${res.id}`
+          );
+
+          navigate(`/order?order=${res.id}`);
         } catch (err) {
+          console.error('Order creation failed:', err);
           setConfirmButtonLoading(false);
+          setConfirmButtonDisabled(false);
         }
       }
-      // }
     } else {
-      // Open the modal
       setIsOffersModalOpen(true);
     }
   };
+
   useEffect(() => {
-    // const prevParams = { ...mainButton.state() };
     if (isOffersModalOpen) {
       mainButton.setParams({
         text: translate('green-card-form:submit-button'),
@@ -386,7 +396,6 @@ export const GreenCardForm = () => {
       setButtonLoading(false);
       setConfirmButtonDisabled(true);
       mainButton.setParams({
-        // isEnabled: true,
         isLoaderVisible: false,
         text: translate('calculate'),
       });
@@ -402,7 +411,6 @@ export const GreenCardForm = () => {
     certificateNumberStatus,
     idnxStatus,
     isFinalDateValid,
-    // translate,
   ]);
 
   useEffect(() => {
@@ -418,52 +426,6 @@ export const GreenCardForm = () => {
       setConfirmButtonDisabled(true);
     }
   }, [formData.company]);
-
-  const handleSubmit = () => {
-    try {
-      const { certificateNumber, region, duration, startDate, idnx, company } =
-        formData;
-      mainButton.setParams({
-        isEnabled: false,
-        isLoaderVisible: true,
-      });
-      setConfirmButtonLoading(true);
-      setConfirmButtonDisabled(true);
-      const date =
-        startDate === 'otherday'
-          ? formatDateForAPI(formData.startDateData)
-          : startDate;
-      createOrder(
-        date,
-        certificateNumber,
-        parseInt(duration),
-        region,
-        idnx,
-        company,
-        initData!.user!.id
-      ).then((res) => {
-        HapticFeedback.notificationOccurred('success');
-        // sendMessageToChat(
-        //   initData!.user!.id.toString(),
-        //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
-        // );
-        sendPreorderToChat(
-          initData!.user!.id.toString(),
-          `${translate('green-card-with')}${res.id} ${translate(
-            'green-card-was-created'
-          )}`,
-          translate('view-order'),
-          res.id,
-          `${import.meta.env.VITE_URL}/order?order=${res.id}`
-        );
-        // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
-        // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
-        navigate(`/order?order=${res.id}`);
-      });
-    } catch (err) {
-      setConfirmButtonLoading(false);
-    }
-  };
 
   const GreenCardOptions = [
     { value: '15', title: translate('duration-15-days') },
@@ -800,3 +762,49 @@ export const GreenCardForm = () => {
     </form>
   );
 };
+
+// const handleSubmit = () => {
+//   try {
+//     const { certificateNumber, region, duration, startDate, idnx, company } =
+//       formData;
+//     mainButton.setParams({
+//       isEnabled: false,
+//       isLoaderVisible: true,
+//     });
+//     setConfirmButtonLoading(true);
+//     setConfirmButtonDisabled(true);
+//     const date =
+//       startDate === 'otherday'
+//         ? formatDateForAPI(formData.startDateData)
+//         : startDate;
+//     createOrder(
+//       date,
+//       certificateNumber,
+//       parseInt(duration),
+//       region,
+//       idnx,
+//       company,
+//       initData!.user!.id
+//     ).then((res) => {
+//       HapticFeedback.notificationOccurred('success');
+//       // sendMessageToChat(
+//       //   initData!.user!.id.toString(),
+//       //   `Comanda Asigurare Carte Verde ${res.id} a fost creatǎ: https://iasig-telegram.pages.dev/order?order=${res.id}`
+//       // );
+//       sendPreorderToChat(
+//         initData!.user!.id.toString(),
+//         `${translate('green-card-with')}${res.id} ${translate(
+//           'green-card-was-created'
+//         )}`,
+//         translate('view-order'),
+//         res.id,
+//         `${import.meta.env.VITE_URL}/order?order=${res.id}`
+//       );
+//       // window.location.href = `${import.meta.env.VITE_URL}order?order=${res.id}`;
+//       // openLink(`https://t.me/pleasepleaseworkbot/order?order=${res.id}`);
+//       navigate(`/order?order=${res.id}`);
+//     });
+//   } catch (err) {
+//     setConfirmButtonLoading(false);
+//   }
+// };
